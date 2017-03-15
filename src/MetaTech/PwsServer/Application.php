@@ -37,7 +37,7 @@ class Application extends App
         };
         $app['user.provider'] = function ($app) {
             return null;
-        }
+        };
     }
 
     /*!

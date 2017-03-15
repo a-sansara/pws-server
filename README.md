@@ -6,10 +6,10 @@ PwsServer is a web application skeleton in silex2 managing web services through 
 
 ### Requirements
 
-PHP 7.0
-meta-tech\silex 2
-meta-tech\silex-core
-meta-tech\pws-client (to test ws)
+* PHP 7.0
+* meta-tech/silex 2
+* meta-tech/silex-core
+* meta-tech/pws-client (to test ws)
 
 
 ### Install
@@ -23,7 +23,7 @@ Or add the package to your `composer.json`.
 
 ```
 "require": {
-    "meta-tech/pws-server" : "@dev"
+    "meta-tech/pws-server" : "~1.0"
 }
 ```
 

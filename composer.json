@@ -17,8 +17,6 @@
         }
     },
     "require": {
-        "meta-tech/silex-core" : "@dev"
-    },
-    "prefer-stable": true,
-    "minimum-stability" : "dev"
+        "meta-tech/silex-core" : "~1.0"
+    }
 }

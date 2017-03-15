@@ -12,7 +12,7 @@ namespace MetaTech\PwsServer\Ctrl;
 use Silex\Application;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
-use MetaTech\Silex\Ws\Controller;
+use MetaTech\PwsServer\Ws\Controller;
 
 /*!
  * @package     MetaTech\PwsServer\Ctrl

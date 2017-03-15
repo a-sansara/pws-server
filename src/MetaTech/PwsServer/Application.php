@@ -35,6 +35,9 @@ class Application extends App
         $app['ws.authenticator'] = function ($app) {
             return new Authenticator($app['config']['pwsauth']);
         };
+        $app['user.provider'] = function ($app) {
+            return null;
+        }
     }
 
     /*!

@@ -2,7 +2,7 @@
     "name"          : "meta-tech/pws-server",
     "type"          : "library",
     "homepage"      : "https://github.com/meta-tech/pws-server",
-    "description"   : "PwsServer is web application skeleton in silex2 managing web services through PwsAuth protocol",
+    "description"   : "PwsServer is a web application skeleton in silex2 managing web services through PwsAuth protocol",
     "license"       : "MIT",
     "authors"       : [
         {
@@ -17,23 +17,8 @@
         }
     },
     "require": {
-        "meta-tech/silex-controller-service" : "@dev",
-        "meta-tech/pws-auth" : "@dev",
         "meta-tech/silex-core" : "@dev"
     },
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/meta-tech/silex-controller-service.git"
-        },
-        {
-            "type": "git",
-            "url": "https://github.com/meta-tech/pws-auth.git"
-        },
-        {
-            "type": "git",
-            "url": "https://github.com/meta-tech/silex-core.git"
-        }
-    ],
-    "minimum-stability": "dev"
+    "prefer-stable": true,
+    "minimum-stability" : "dev"
 }

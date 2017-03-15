@@ -14,7 +14,7 @@ meta-tech\pws-client (to test ws)
 
 ### Install
 
-The package can be installed using [ Composer ](https://getcomposer.org/). (not yet)
+The package can be installed using [ Composer ](https://getcomposer.org/).
 ```
 composer require meta-tech/pws-server
 ```
@@ -23,7 +23,7 @@ Or add the package to your `composer.json`.
 
 ```
 "require": {
-    "meta-tech/pws-server" : "1.0"
+    "meta-tech/pws-server" : "@dev"
 }
 ```
 

@@ -10,8 +10,11 @@
 namespace MetaTech\PwsServer\Ws;
 
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use MetaTech\PwsAuth\Authenticator;
 use MetaTech\Silex\Ws\Authentication as BaseAuthentication;
+use MetaTech\Silex\Provider\UserProvider;
 
 /*!
  * @package     MetaTech\PwsServer\Ws
@@ -27,26 +30,39 @@ class Authentication extends BaseAuthentication
     /*!
      * @constructor
      * @public
-     * @param       Symfony\Component\HttpFoundation\Session\Session    $session
-     * @param       MetaTech\PwsAuth\Authenticator                      $authenticator
+     * @param       Symfony\Component\HttpFoundation\Session\Session                    $session
+     * @param       MetaTech\PwsAuth\Authenticator                                      $authenticator
+     * @param       Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface    $passEncoder
+     * @param       MetaTech\Silex\Provider\UserProvider                                $userProvider
      */
-    public function __construct(Session $session, Authenticator $authenticator, $userProvider)
+    public function __construct(Session $session, Authenticator $authenticator, PasswordEncoderInterface $passEncoder = null, UserProvider $userProvider)
     {
-        parent::__construct($session, $authenticator);
-        $this->userOrovider = $userProvider;
+        parent::__construct($session, $authenticator, $passEncoder);
+        $this->userProvider = $userProvider;
     }
 
     /*!
      * @method      checkUser
      * @public
-     * @param      str      $login
-     * @param      str      $password
-     * @param      str      $key
+     * @param       str                                                                 $login
+     * @param       str                                                                 $password
+     * @param       str                                                                 $key
+     * @param       Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface    $passEncoder
      * @return      bool
      */
-    public function checkUser($login, $password, $key)
+    public function checkUser($login, $password, $key, PasswordEncoderInterface $passEncoder = null)
     {
-        // @todo implements with userProvider
-        return true;
+        $done = false;
+        try {
+            if (!is_null($passEncoder)) {
+                $user = $this->userProvider->loadUserByUsername($login);
+                $salt = $this->authenticator->getUserSalt($login);
+                $done = $user->key == $key && $passEncoder->encodePassword($password, $salt) == $user->getPassword();
+            }
+        }
+        catch(\Exception $e) {
+            //~ var_dump($e->getTraceAsString());
+        }
+        return $done;
     }
 }

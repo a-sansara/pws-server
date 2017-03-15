@@ -11,6 +11,9 @@ namespace MetaTech\PwsServer;
 
 use MetaTech\Silex\Application as App;
 use MetaTech\Silex\Provider\ControllerServiceProvider as CtrlProvider;
+use MetaTech\Silex\Provider\UserProvider;
+use MetaTech\Db\PdoWrapper;
+use MetaTech\Db\Profile;
 use MetaTech\PwsAuth\Authenticator;
 use MetaTech\PwsServer\Ctrl\Test;
 use MetaTech\PwsServer\Ctrl\WebService;
@@ -35,8 +38,11 @@ class Application extends App
         $app['ws.authenticator'] = function ($app) {
             return new Authenticator($app['config']['pwsauth']);
         };
+        $app['pdo'] = function ($app) {
+            return new PdoWrapper(new Profile($app['config']['db']['default']));
+        };
         $app['user.provider'] = function ($app) {
-            return null;
+            return new UserProvider($app['pdo']);
         };
     }
 

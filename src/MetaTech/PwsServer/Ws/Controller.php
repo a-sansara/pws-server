@@ -32,6 +32,6 @@ class Controller extends BaseController
     public function __construct(Application $app = null)
     {
         $this->session = $app['session'];
-        $this->handler = new Authentication($this->session, $app['ws.authenticator'], $app['user.provider']);
+        $this->handler = new Authentication($this->session, $app['ws.authenticator'], $app['security.encoder.pbkdf2'], $app['user.provider']);
     }
 }

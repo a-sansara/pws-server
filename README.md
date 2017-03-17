@@ -14,7 +14,8 @@ PwsServer is a web application skeleton in silex2 managing web services through 
 
 ### Install
 
-The package can be installed using [ Composer ](https://getcomposer.org/).
+The package can be installed using [ Composer ](https://getcomposer.org/).  
+
 ```
 composer require meta-tech/pws-server
 ```
@@ -47,10 +48,6 @@ use MetaTech\PwsServer\Ctrl\OtherWebService;
 
 class Application extends App
 {
-    /*!
-     * @method      setServices
-     * @protected
-     */
     protected function setServices()
     {
         $app = $this;
@@ -65,10 +62,6 @@ class Application extends App
         };
     }
 
-    /*!
-     * @method      routingDefinition
-     * @protected
-     */
     protected function routingDefinition()
     {
         $this->register(new CtrlProvider(Test::class           , [$this], '/'));
@@ -106,11 +99,12 @@ class WebService extends Controller
 }
 ```
 
-check `OtherWebService` to see another controller and deep routes inside rooting /ws entry point.
-(the main différence consist in no calling the parent routing method)
-
 `pwsAuth` Authentication mecanism is already provided by the `MetaTech\Silex\Ws\Controller`  parent class
 & the `MetaTech\Silex\Ws\Authentication` handler (in [ meta-tech/silex-core](https://github.com/meta-tech/silex-core) package)
+
+Check `OtherWebService` to see another controller and deep routes inside rooting /ws entry point.
+The main différence consist in no calling the parent routing method, however the pwsauth authentication
+still be active.
 
 The project now implement the `checkUser` method via a `userProvider`  
 It use a `MetaTech\Silex\Ws\Authentication` and `MetaTech\Silex\Ws\Controller` subclasses :
@@ -119,7 +113,6 @@ It use a `MetaTech\Silex\Ws\Authentication` and `MetaTech\Silex\Ws\Controller` s
 namespace MetaTech\PwsServer\Ws;
 
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use MetaTech\PwsAuth\Authenticator;
 use MetaTech\Silex\Ws\Authentication as BaseAuthentication;
@@ -149,6 +142,24 @@ class Authentication extends BaseAuthentication
             //~ var_dump($e->getTraceAsString());
         }
         return $done;
+    }
+}
+```
+the controller :
+
+```php
+namespace MetaTech\PwsServer\Ws;
+
+use Silex\Application;
+use MetaTech\Silex\Ws\Controller as BaseController;
+use MetaTech\PwsServer\Ws\Authentication;
+
+class Controller extends BaseController
+{
+    public function __construct(Application $app = null)
+    {
+        $this->session = $app['session'];
+        $this->handler = new Authentication($this->session, $app['ws.authenticator'], $app['security.encoder.pbkdf2'], $app['user.provider']);
     }
 }
 ```

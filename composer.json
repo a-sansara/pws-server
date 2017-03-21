@@ -17,6 +17,7 @@
         }
     },
     "require": {
+        "meta-tech/pws-auth" : "@dev",
         "meta-tech/silex-core" : "^1.0"
     }
 }
